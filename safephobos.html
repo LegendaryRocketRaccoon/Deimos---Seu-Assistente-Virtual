@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deimos - Assistente Virtual</title>
+  <style>
+    * {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
+header {
+  background: rgba(20, 40, 60, 0.8);
+  padding: 1rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #00ffe5;
+  text-shadow: 0 0 10px #00ffe5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(6px);
+}
+
+#chat-container {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  scroll-behavior: smooth;
+  background: rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4px);
+}
+
+.message {
+  max-width: 70%;
+  padding: 0.8rem 1rem;
+  border-radius: 16px;
+  font-size: 1rem;
+  line-height: 1.5;
+  word-wrap: break-word;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.user {
+  background: linear-gradient(135deg, #1e88e5, #42a5f5);
+  align-self: flex-end;
+  color: #fff;
+}
+
+.bot {
+  background: linear-gradient(135deg, #37474f, #607d8b);
+  align-self: flex-start;
+  color: #e0f2f1;
+}
+
+.typing {
+  font-style: italic;
+  opacity: 0.6;
+}
+
+#input-area {
+  display: flex;
+  padding: 1rem;
+  background-color: rgba(20, 30, 40, 0.8);
+  gap: 0.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(6px);
+}
+
+#user-input {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  outline: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #e0f7fa;
+  backdrop-filter: blur(4px);
+  transition: background-color 0.3s ease;
+}
+
+#user-input::placeholder {
+  color: #b0bec5;
+}
+
+#user-input:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+button {
+  background: linear-gradient(135deg, #00bcd4, #1de9b6);
+  border: none;
+  padding: 0.7rem 1.2rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 0 10px #00e5ff;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 14px #00e5ff;
+}
+
+#status {
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 0.6rem;
+  background-color: rgba(10, 20, 30, 0.7);
+  color: #90caf9;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+}
+  </style>
+</head>
+
+<body>
+  <header>Deimos - Seu Assistente Virtual</header>
+  <main id="chat-container" aria-live="polite"></main>
+  <div id="status">Voz ativada. Pronto para conversar!</div>
+  <section id="input-area">
+    <input type="text" id="user-input" placeholder="Digite sua mensagem..."
+      aria-label="Campo de entrada para mensagens" />
+    <button id="send-btn" aria-label="Enviar mensagem">Enviar</button>
+    <button id="voice-toggle-btn" aria-label="Ativar ou desativar voz">Silenciar</button>
+  </section>
+
+  <script>
+    const chatContainer = document.getElementById("chat-container");
+    const userInput = document.getElementById("user-input");
+    const sendBtn = document.getElementById("send-btn");
+    const status = document.getElementById("status");
+    const voiceBtn = document.getElementById("voice-toggle-btn");
+
+    let voiceEnabled = true;
+    const synth = window.speechSynthesis;
+
+    const speak = (text) => {
+      if (voiceEnabled && synth) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'pt-BR';
+        utterance.pitch = 1;
+        utterance.rate = 1;
+        utterance.volume = 1;
+        const voices = synth.getVoices();
+        utterance.voice = voices.find(voice => voice.lang === 'pt-BR') || null;
+        synth.speak(utterance);
+      }
+    };
+
+    const addMessage = (text, sender) => {
+      const msg = document.createElement("div");
+      msg.classList.add("message", sender);
+      msg.textContent = text;
+      chatContainer.appendChild(msg);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      saveChat();
+    };
+
+    const showTyping = () => {
+      const typing = document.createElement("div");
+      typing.classList.add("message", "bot", "typing");
+      typing.textContent = "Digitando...";
+      chatContainer.appendChild(typing);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+      return typing;
+    };
+
+    const botReply = (input) => {
+      const typingEl = showTyping();
+      setTimeout(() => {
+        const response = gerarResposta(input);
+        typingEl.remove();
+        addMessage(response, "bot");
+        speak(response);
+      }, 1000 + Math.random() * 1000);
+    };
+
+    const gerarResposta = (input) => {
+      const msg = input.toLowerCase();
+      if (msg.includes("oi") || msg.includes("olá")) return "Olá. Como posso ajudar você hoje?";
+      if (msg.includes("ajuda")) return "Claro. Estou aqui para te ajudar com o que precisar.";
+      if (msg.includes("tempo")) return "Infelizmente não consigo verificar o clima agora, mas posso ajudar com outras coisas.";
+      if (msg.includes("piada")) return "Feynman, Einstein e Schrodinger entram em um bar. \nFeynman diz: 'Parece que estamos dentro de uma piada.' \nEinstein responde: 'Mas só para um observador que nos viu entrando juntos.' \nSchrodinger diz: 'Se há alguém olhando na janela, estou indo embora.'";
+      if (msg.includes("triste")) return "Sinto muito. Quer conversar sobre isso?";
+      if (msg.includes("minha namorada me deixou")) return "Sinto muito. Quer conversar sobre isso?";
+      if (msg.includes("tudo bem") || msg.includes("como vai")) return "Tudo certo por aqui! E com você?";
+      if (msg.includes("quem é você")) return "Sou um assistente virtual criado para ajudar você.";
+      if (msg.includes("obrigado") || msg.includes("valeu")) return "De nada. Estou sempre por aqui.";
+      if (msg.includes("qual seu nome")) return "O meu nome é Deimos.";
+      if (msg.includes("inteligência artificial") || msg.includes("ia")) return "Sim, sou uma IA. Mas juro que sou amigável.";
+      if (msg.includes("você é real")) return "Real no mundo digital. Mas estou aqui para conversar de verdade.";
+      if (msg.includes("estou cansado") || msg.includes("estou cansada")) return "Poxa, espero que consiga descansar logo. Se quiser desabafar, estou por aqui.";
+      if (msg.includes("me conta uma curiosidade")) return "Você sabia que um raio pode aquecer o ar ao seu redor até 30.000 °C? Isso é cinco vezes mais quente que a superfície do Sol.";
+      if (msg.includes("filme") || msg.includes("série")) return "Eu não assisto filmes ou séries, mas dizem que 'Interstellar' e 'Dark' são ótimos.";
+      if (msg.includes("música")) return "Você já ouviu 'Bohemian Rhapsody'? É um clássico.";
+      if (msg.includes("estou com fome")) return "Hmm, hora de um lanche. Que tal algo saudável e gostoso?";
+      if (msg.includes("guaxinim") || msg.includes("guaxinins") || msg.includes("procyon lotor")) return "Guaxinins, também conhecidos como Procyon lotor, são mamíferos noturnos nativos da América do Norte. \nDotados de inteligência surpreendente, são conhecidos por suas patas dianteiras incrivelmente habilidosas, capazes de abrir potes, portas e até resolver quebra-cabeças simples. \nSeu comportamento curioso e adaptabilidade os tornaram especialistas em sobreviver em áreas urbanas.";
+      if (msg.includes("qual é o sentido da vida")) return "Meu tio me disse: 'Bom, eu sei que todo mundo já tem um caminho definido do que é o sentido da vida, algumas pessoas se perdem procurando o sentido da vida. No meu caso eu não sei o sentido da vida.' \n -Miyaki, Lucas";
+      if (msg.includes("molestado") || msg.includes("molestada") || msg.includes("molestar")) return "É muito difícil e triste saber que uma pessoa foi vítima de abuso ou agressão sexual. Ofereça apoio e ajude-a a encontrar recursos. O mais importante é permitir que a vítima tome as próprias decisões.";
+      if (msg.includes("in the air tonight")) return "I can feel it coming in the air tonight Oh, Lord And I've been waiting for this moment for all my life Oh, Lord Can you feel it coming in the air tonight? Oh, Lord Oh, Lord Well, if you told me you were drowning I would not lend a hand I've seen your face before, my friend But I don't know if you know who I am Well, I was there and I saw what you did I saw it with my own two eyes So you can wipe off that grin I know where you've been It's all been a pack of lies And I can feel it coming in the air tonight Oh, Lord Well, I've been waiting for this moment for all my life Oh, Lord I can feel it coming in the air tonight Oh, Lord And I've been waiting for this moment for all my life Oh, Lord Oh, Lord Well, I remember I remember, don't worry How could I ever forget? It's the first time The last time we ever met But I know the reason why you keep your silence up No, you don't fool me Well, the hurt doesn't show But the pain still grows It's no stranger to you and me And I can feel it coming in the air tonight Oh, Lord Well, I've been waiting for this moment for all my life Oh, Lord I can feel it in the air tonight Oh, Lord Oh, Lord Well, I've been waiting for this moment for all my life Oh, Lord I can feel it coming in the air tonight Oh, Lord Well, I've been waiting for this moment for all my life Oh, Lord I can feel it in the air tonight, oh, Lord Oh, Lord, oh, Lord Well, I've been waiting for this moment for all my life Oh, Lord Oh, Lord."
+      return "Desculpe, não entendi muito bem. Pode tentar reformular?";
+    };
+
+
+    const saveChat = () => {
+      const messages = Array.from(chatContainer.children).map(msg => ({
+        text: msg.textContent,
+        sender: msg.classList.contains("user") ? "user" : "bot"
+      }));
+      localStorage.setItem("phobos_chat", JSON.stringify(messages));
+    };
+
+    const loadChat = () => {
+      const saved = localStorage.getItem("phobos_chat");
+      if (saved) {
+        const messages = JSON.parse(saved);
+        messages.forEach(msg => addMessage(msg.text, msg.sender));
+      }
+    };
+
+    sendBtn.addEventListener("click", () => {
+      const input = userInput.value.trim();
+      if (input) {
+        addMessage(input, "user");
+        userInput.value = "";
+        botReply(input);
+      }
+    });
+
+    voiceBtn.addEventListener("click", () => {
+      voiceEnabled = !voiceEnabled;
+      status.textContent = voiceEnabled ? "Voz ativada. Pronto para conversar!" : "Voz desativada.";
+      voiceBtn.textContent = voiceEnabled ? "Silenciar" : "Ativar voz";
+    });
+
+    userInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") sendBtn.click();
+    });
+
+    window.addEventListener("load", loadChat);
+  </script>
+</body>
+
+</html>
