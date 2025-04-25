@@ -168,26 +168,7 @@
     let voiceEnabled = true;
     const synth = window.speechSynthesis;
 
-    function fatoCurioso() {
-  const numeroAleatorio = Math.floor(Math.random() * 6) + 1;
-  switch (numeroAleatorio) {
-    case 1:
-      return "Você sabia que um raio pode aquecer o ar ao seu redor até 30.000°C? Isso é cinco vezes mais quente que a superfície do Sol.";
-    case 2:
-      return "Sabia que as abelhas podem reconhecer rostos humanos? Elas possuem uma memória incrível.";
-    case 3:
-      return "A Terra não é perfeitamente redonda, ela é chamada de geoide, ela é um pouco achatada nos polos devido à rotação.";
-    case 4:
-      return "Você sabia que as estrelas no céu não são todas iguais? Algumas são muito maiores e mais quentes que o nosso Sol.";
-    case 5:
-      return "A água-viva Turritopsis dohrnii é conhecida como a 'medusa imortal'. Ela pode reverter seu ciclo de vida.";
-    case 6:
-      return "O coração de uma baleia azul pode pesar tanto quanto um carro pequeno.";
-    default:
-      return "Não consegui encontrar uma curiosidade agora. Volte mais tarde";
-  }
-}
-
+    
     
     const speak = (text) => {
       if (voiceEnabled && synth) {
@@ -243,7 +224,7 @@
       if (msg.includes("quem é você")) return "Sou um assistente virtual criado para ajudar você.";
       if (msg.includes("obrigado") || msg.includes("valeu")) return "De nada. Estou sempre por aqui.";
       if (msg.includes("qual seu nome")) return "O meu nome é Deimos.";
-      
+      if (msg.includes("me conte um fato") || msg.includes("me fale uma curiosidade") || msg.includes("fato curioso")) return "teste";
       if (msg.includes("inteligência artificial") || msg.includes("ia")) return "Sim, sou uma IA. Mas juro que sou amigável.";
       if (msg.includes("você é real")) return "Real no mundo digital. Mas estou aqui para conversar de verdade.";
       if (msg.includes("estou cansado") || msg.includes("estou cansada")) return "Poxa, espero que consiga descansar logo. Se quiser desabafar, estou por aqui.";
