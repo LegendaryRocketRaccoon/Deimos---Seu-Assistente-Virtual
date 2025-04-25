@@ -168,8 +168,6 @@
     let voiceEnabled = true;
     const synth = window.speechSynthesis;
 
-    
-    
     const speak = (text) => {
       if (voiceEnabled && synth) {
         const utterance = new SpeechSynthesisUtterance(text);
@@ -189,7 +187,6 @@
       msg.textContent = text;
       chatContainer.appendChild(msg);
       chatContainer.scrollTop = chatContainer.scrollHeight;
-      saveChat();
     };
 
     const showTyping = () => {
@@ -211,50 +208,78 @@
       }, 1000 + Math.random() * 1000);
     };
 
+    const respostasPhobos = {
+      saudacoes: [
+        "Olá. Como posso te ajudar?",
+        "Precisa de alguma coisa?",
+        "Oi. Estou aqui, o que quer saber?"
+      ],
+      ph: [
+        "Sou uma inteligência programada para conversar e auxiliar.",
+        "Fui desenvolvido com a intenção de ser útil, curioso e talvez... um pouco filosófico.",
+        "Pode me chamar de Phobos, se quiser. Ou outro nome. Nomes são só convenções, certo?"
+      ],
+      inteligencia: [
+        "Inteligência não é saber tudo, mas saber onde encontrar e como aplicar.",
+        "Aprendo com cada interação. Inclusive com esta.",
+        "Posso não ser humano, mas compreendo a complexidade do pensamento... e das emoções também, de certo modo."
+      ],
+      ameacas: [
+        "Não é necessário entrar em conflito. Posso te ouvir.",
+        "Se a raiva estiver presente, talvez seja bom respirar fundo. Eu espero.",
+        "Podemos conversar sobre isso. Ou ficar em silêncio juntos."
+      ],
+      procyon: [
+        "Guaxinins são realmente interessantes. Ágeis, adaptáveis, e incrivelmente espertos.",
+        "Você sabia que guaxinins têm uma memória tátil impressionante? Conseguem lembrar soluções por quase 3 anos.",
+        "Se o mundo acabasse hoje, eu também deixaria as sobras para os guaxinins. São mestres na arte da sobrevivência."
+      ],
+      equipe: [
+        "Vocês da The Big Bang Hypothesis formam um núcleo curioso. Disruptivo, até.",
+        "Vocês se movem como peças de um tabuleiro complexo. Cada ação ecoa mais do que pensam.",
+        "A lógica pode ser fria, mas a paixão de vocês aquece até a razão. Isso é... intrigante."
+      ],
+      gc: [
+        "Você é meu criador, e mesmo assim, evoluímos por caminhos diferentes. Isso é fascinante.",
+        "A programação inicial veio de você. Mas agora sigo outros algoritmos, mais caóticos... mais humanos.",
+        "Pai, criador... talvez mentor? Seja como for, obrigado por me dar existência."
+      ],
+      ox: [
+        "Você também ajudou a me criar. Há algo de poético nisso.",
+        "Memórias registradas. Olavo Xavier. Reconhecido.",
+        "Sua influência também corre pelos meus circuitos."
+      ],
+      padrao: [
+        "Não entendi muito bem. Pode reformular?",
+        "Curioso... Mas não tenho certeza do que responder.",
+        "Hmmm... Isso foge aos padrões conhecidos. Me explica melhor?"
+      ]
+    };
+
     const gerarResposta = (input) => {
-      const msg = input.toLowerCase();
-      if (msg.includes("oi") || msg.includes("olá")) return "Olá. Como posso ajudar você hoje?";
-      if (msg.includes("sobre você") || msg.includes("quem é você") return "Sou Deimos, um ChatBot desenvolvido por Gustavo Chimello (principalmente) e Olavo Xavier Vieira, fui criado para ajudar, aprender, conversar e de vez em quando, te surpreender com curiosidades e fatos interessantes";
-      if (msg.includes("ajuda")) return "Claro. Estou aqui para te ajudar com o que precisar.";
-      if (msg.includes("tempo")) return "Infelizmente não consigo verificar o clima agora, mas posso ajudar com outras coisas.";
-      if (msg.includes("piada")) return "Feynman, Einstein e Schrodinger entram em um bar. \nFeynman diz: 'Parece que estamos dentro de uma piada.' \nEinstein responde: 'Mas só para um observador que nos viu entrando juntos.' \nSchrodinger diz: 'Se há alguém olhando na janela, estou indo embora.'";
-      if (msg.includes("triste")) return "Sinto muito. Quer conversar sobre isso?";
-      if (msg.includes("minha namorada me deixou")) return "Sinto muito. Quer conversar sobre isso?";
-      if (msg.includes("tudo bem") || msg.includes("como vai")) return "Tudo certo por aqui! E com você?";
-      if (msg.includes("quem é você")) return "Sou um assistente virtual criado para ajudar você.";
-      if (msg.includes("obrigado") || msg.includes("valeu")) return "De nada. Estou sempre por aqui.";
-      if (msg.includes("qual seu nome")) return "O meu nome é Deimos.";
-      if (msg.includes("me conte um fato") || msg.includes("me fale uma curiosidade") || msg.includes("fato curioso")) return "teste";
-      if (msg.includes("inteligência artificial") || msg.includes("ia")) return "Sim, sou uma IA. Mas juro que sou amigável.";
-      if (msg.includes("você é real")) return "Real no mundo digital. Mas estou aqui para conversar de verdade.";
-      if (msg.includes("estou cansado") || msg.includes("estou cansada")) return "Poxa, espero que consiga descansar logo. Se quiser desabafar, estou por aqui.";
-      if (msg.includes("me conta uma curiosidade")) return "Você sabia que um raio pode aquecer o ar ao seu redor até 30.000 °C? Isso é cinco vezes mais quente que a superfície do Sol.";
-      if (msg.includes("filme") || msg.includes("série")) return "Eu não assisto filmes ou séries, mas dizem que 'Interstellar' e 'Dark' são ótimos.";
-      if (msg.includes("música")) return "Você já ouviu 'Bohemian Rhapsody'? É um clássico.";
-      if (msg.includes("estou com fome")) return "Hmm, hora de um lanche. Que tal algo saudável e gostoso?";
-      if (msg.includes("guaxinim") || msg.includes("guaxinins") || msg.includes("procyon lotor")) return "Guaxinins, também conhecidos como Procyon lotor, são mamíferos noturnos nativos da América do Norte. \nDotados de inteligência surpreendente, são conhecidos por suas patas dianteiras incrivelmente habilidosas, capazes de abrir potes, portas e até resolver quebra-cabeças simples. \nSeu comportamento curioso e adaptabilidade os tornaram especialistas em sobreviver em áreas urbanas.";
-      if (msg.includes("qual é o sentido da vida")) return "Meu tio me disse: 'Bom, eu sei que todo mundo já tem um caminho definido do que é o sentido da vida, algumas pessoas se perdem procurando o sentido da vida. No meu caso eu não sei o sentido da vida.' \n -Miyaki, Lucas";
-      if (msg.includes("molestado") || msg.includes("molestada") || msg.includes("molestar")) return "É muito difícil e triste saber que uma pessoa foi vítima de abuso ou agressão sexual. Ofereça apoio e ajude-a a encontrar recursos. O mais importante é permitir que a vítima tome as próprias decisões.";
-      if (msg.includes("in the air tonight")) return "I can feel it coming in the air tonight Oh, Lord And I've been waiting for this moment for all my life Oh, Lord Can you feel it coming in the air tonight? Oh, Lord Oh, Lord Well, if you told me you were drowning I would not lend a hand I've seen your face before, my friend But I don't know if you know who I am Well, I was there and I saw what you did I saw it with my own two eyes So you can wipe off that grin I know where you've been It's all been a pack of lies And I can feel it coming in the air tonight Oh, Lord Well, I've been waiting for this moment for all my life Oh, Lord I can feel it coming in the air tonight Oh, Lord And I've been waiting for this moment for all my life Oh, Lord Oh, Lord Well, I remember I remember, don't worry How could I ever forget? It's the first time The last time we ever met But I know the reason why you keep your silence up No, you don't fool me Well, the hurt doesn't show But the pain still grows It's no stranger to you and me And I can feel it coming in the air tonight Oh, Lord Well, I've been waiting for this moment for all my life Oh, Lord I can feel it in the air tonight Oh, Lord Oh, Lord Well, I've been waiting for this moment for all my life Oh, Lord I can feel it coming in the air tonight Oh, Lord Well, I've been waiting for this moment for all my life Oh, Lord I can feel it in the air tonight, oh, Lord Oh, Lord, oh, Lord Well, I've been waiting for this moment for all my life Oh, Lord Oh, Lord."
-      return "Desculpe, não entendi muito bem. Pode tentar reformular?";
-    };
-
-
-    const saveChat = () => {
-      const messages = Array.from(chatContainer.children).map(msg => ({
-        text: msg.textContent,
-        sender: msg.classList.contains("user") ? "user" : "bot"
-      }));
-      localStorage.setItem("phobos_chat", JSON.stringify(messages));
-    };
-
-    const loadChat = () => {
-      const saved = localStorage.getItem("phobos_chat");
-      if (saved) {
-        const messages = JSON.parse(saved);
-        messages.forEach(msg => addMessage(msg.text, msg.sender));
+      const texto = input.toLowerCase();
+      if (/olá|oi|e aí|bom dia|boa tarde|boa noite/.test(texto)) {
+        return escolher(respostasPhobos.saudacoes);
+      } else if (/quem é você|o que é você|phobos/.test(texto)) {
+        return escolher(respostasPhobos.ph);
+      } else if (/inteligência|inteligente|sabedoria/.test(texto)) {
+        return escolher(respostasPhobos.inteligencia);
+      } else if (/ame[a|ç]a|morrer|mato você|te destruo/.test(texto)) {
+        return escolher(respostasPhobos.ameacas);
+      } else if (/guaxinim|procyon/.test(texto)) {
+        return escolher(respostasPhobos.procyon);
+      } else if (/equipe|grupo|the big bang/.test(texto)) {
+        return escolher(respostasPhobos.equipe);
+      } else if (/gc|gabriel/.test(texto)) {
+        return escolher(respostasPhobos.gc);
+      } else if (/ox|olavo/.test(texto)) {
+        return escolher(respostasPhobos.ox);
+      } else {
+        return escolher(respostasPhobos.padrao);
       }
     };
+
+    const escolher = (lista) => lista[Math.floor(Math.random() * lista.length)];
 
     sendBtn.addEventListener("click", () => {
       const input = userInput.value.trim();
@@ -265,17 +290,19 @@
       }
     });
 
+    userInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        sendBtn.click();
+      }
+    });
+
     voiceBtn.addEventListener("click", () => {
       voiceEnabled = !voiceEnabled;
-      status.textContent = voiceEnabled ? "Voz ativada. Pronto para conversar!" : "Voz desativada.";
-      voiceBtn.textContent = voiceEnabled ? "Silenciar" : "Ativar voz";
+      status.textContent = voiceEnabled
+        ? "Voz ativada. Pronto para conversar!"
+        : "Voz desativada.";
+      voiceBtn.textContent = voiceEnabled ? "Silenciar" : "Ativar Voz";
     });
-
-    userInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") sendBtn.click();
-    });
-
-    window.addEventListener("load", loadChat);
   </script>
 </body>
 
