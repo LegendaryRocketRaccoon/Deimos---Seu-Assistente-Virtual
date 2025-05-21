@@ -1,0 +1,258 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: auto;
+}
+
+header {
+    background: rgba(20, 40, 60, 0.8);
+    padding: 1rem;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #00ffe5;
+    text-shadow: 0 0 10px #00ffe5;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+}
+
+#button-bar {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    background-color: rgba(30, 50, 70, 0.6);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+}
+
+#button-bar button {
+    background: linear-gradient(135deg, #00ffe5, #0039f5);
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 0 8px #00ffe5;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+#button-bar button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px #0039f5;
+}
+
+#chat-container {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    scroll-behavior: smooth;
+    background: rgba(255, 255, 255, 0.05);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+}
+
+.message {
+    max-width: 70%;
+    padding: 0.8rem 1rem;
+    border-radius: 16px;
+    font-size: 1rem;
+    line-height: 1.5;
+    word-wrap: break-word;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.user {
+    background: linear-gradient(135deg, #1e88e5, #42a5f5);
+    align-self: flex-end;
+    color: #fff;
+}
+
+.bot {
+    background: linear-gradient(135deg, #37474f, #607d8b);
+    align-self: flex-start;
+    color: #e0f2f1;
+}
+
+.typing {
+    font-style: italic;
+    opacity: 0.6;
+}
+
+#input-area {
+    display: flex;
+    padding: 1rem;
+    background-color: rgba(20, 30, 40, 0.8);
+    gap: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(6px);
+}
+
+#user-input {
+    flex: 1;
+    padding: 0.7rem 1rem;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #e0f7fa;
+    backdrop-filter: blur(4px);
+    transition: background-color 0.3s ease;
+}
+
+#user-input::placeholder {
+    color: #b0bec5;
+}
+
+#user-input:focus {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+button {
+    background: linear-gradient(135deg, #00bcd4, #1de9b6);
+    border: none;
+    padding: 0.7rem 1.2rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 0 10px #00e5ff;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 14px #00e5ff;
+}
+
+#status {
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 0.6rem;
+    background-color: rgba(10, 20, 30, 0.7);
+    color: #90caf9;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+#music-player-container {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    color: white;
+}
+
+#music-player-container button {
+    float: right;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#music-player {
+    width: calc(100% - 66px);
+}
+
+a {
+    color: white;
+}
+
+@media (max-width: 600px) {
+  header {
+    font-size: 1.5rem;
+    padding: 0.5rem;
+  }
+
+  #logout-btn {
+    top: 5px;
+    right: 5px;
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+
+  #chat-container {
+    padding: 0.5rem;
+  }
+
+  .message {
+    max-width: 90%;
+    font-size: 14px;
+    padding: 0.6rem 0.8rem;
+  }
+
+  #music-player-container {
+    flex-direction: column;
+    padding: 6px;
+  }
+
+  #music-player {
+    width: 100%;
+  }
+
+  button {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+  }
+}
+
+#logout-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#chat-container {
+  max-height: calc(100vh - 230px);
+}
+
+#input-area {
+  flex-wrap: wrap;
+}
+
+#button-bar,
+#chat-container,
+#input-area {
+  width: 100%;
+  box-sizing: border-box;
+}

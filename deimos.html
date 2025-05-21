@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="./img/Deimos.png">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./css/deimos.css">
+  <title>Deimos - Assistente Virtual</title>
+</head>
+<body>
+  <header>Deimos - Seu Assistente Virtual</header>
+  <div id="button-bar">
+    <button id="jogos-btn">Jogos</button>
+    <button id="musicas-btn">Músicas</button>
+    <button id="extras-btn">Extras</button>
+    <button onclick="window.open('https://legendaryrocketraccoon.github.io/Deimos-Tradutor/', '_blank')">Tradutor</button>
+  </div>
+      <button id="logout-btn">Sair</button>
+  <main id="chat-container" aria-live="polite"></main>
+  <div id="status">Voz ativada. Pronto para conversar!</div>
+  <section id="input-area">
+    <input type="text" id="user-input" placeholder="Digite sua mensagem..."
+      aria-label="Campo de entrada para mensagens" />
+    <button id="send-btn" aria-label="Enviar mensagem">Enviar</button>
+    <button id="voice-toggle-btn" aria-label="Ativar ou desativar voz">Silenciar</button>
+  </section>
+  
+  <script type="module" src="./js/deimos.js"></script>
+  <script type="module">
+  import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyB8Ji1solW904fstUbIUcHCD8RnRn8CTsI",
+    authDomain: "deimos---ia.firebaseapp.com",
+    databaseURL: "https://deimos---ia-default-rtdb.firebaseio.com",
+    projectId: "deimos---ia",
+    storageBucket: "deimos---ia.firebasestorage.app",
+    messagingSenderId: "418940529875",
+    appId: "1:418940529875:web:feebf6b23874ab81d8b826",
+    measurementId: "G-8ZDZ0Y837M"
+};
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  document.getElementById("logout-btn").addEventListener("click", () => {
+    signOut(auth).then(() => {
+      window.location.href = "index.html";
+    }).catch((error) => {
+      alert("Erro ao sair: " + error.message);
+    });
+  });
+</script>
+</body>
+</html>
