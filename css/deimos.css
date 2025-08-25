@@ -276,3 +276,41 @@ footer {
         footer p {
             margin: 0;
         }
+
+@media(max-width: 700px) {
+
+            .card,
+            #status,
+            .info-row {
+                max-width: 98vw;
+            }
+
+            h1 {
+                font-size: 1.7em;
+            }
+
+            button {
+                font-size: 15px;
+                padding: 12px 16px;
+            }
+
+            .info-block {
+                font-size: 1em;
+                padding: 10px 8px;
+            }
+        }
+
+        @media(max-width: 500px) {
+            .button-row {
+                gap: 8px;
+            }
+
+            .info-row {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .card {
+                padding: 12px;
+            }
+        }
