@@ -255,4 +255,24 @@ a {
 #input-area {
   width: 100%;
   box-sizing: border-box;
+
 }
+
+footer {
+            width: 100%;
+            background: #232a36;
+            color: #00cfff;
+            text-align: center;
+            padding: 18px 0;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            font-size: 15px;
+            font-weight: 400;
+            box-shadow: 0 -2px 12px #00cfff22;
+            letter-spacing: 1px;
+        }
+
+        footer p {
+            margin: 0;
+        }
