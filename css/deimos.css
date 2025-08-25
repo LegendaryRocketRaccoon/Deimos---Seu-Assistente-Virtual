@@ -258,7 +258,20 @@ a {
 
 }
 
-footer {
+ .info-block {
+            background: var(--cinza-claro);
+            border-radius: 10px;
+            padding: 12px 18px;
+            flex: 1;
+            text-align: center;
+            color: #00cfff;
+            font-weight: 500;
+            font-size: 1.1em;
+            border: 1px solid #00cfff44;
+            box-shadow: 0 2px 8px #00cfff22;
+        }
+
+        footer {
             width: 100%;
             background: #232a36;
             color: #00cfff;
@@ -277,7 +290,7 @@ footer {
             margin: 0;
         }
 
-@media(max-width: 700px) {
+        @media(max-width: 700px) {
 
             .card,
             #status,
