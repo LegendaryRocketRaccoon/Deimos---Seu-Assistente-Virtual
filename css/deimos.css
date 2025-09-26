@@ -9,20 +9,34 @@ body {
     color: #e0e0e0;
     display: flex;
     flex-direction: column;
-    height: 100vh;
-    overflow: auto;
+    min-height: 100vh; /* allow footer to sit after content */
+}
+
+:root{
+    /* color palette */
+    --bg-1: #0f2027;
+    --bg-2: #203a43;
+    --bg-3: #2c5364;
+    --card-bg: rgba(255,255,255,0.04);
+    --panel-bg: rgba(20,30,40,0.85);
+    --accent: #00cfff;
+    --accent-2: #00ffe5;
+    --muted: #b0bec5;
+    --glass: rgba(255,255,255,0.06);
+    --footer-height: 64px;
 }
 
 header {
-    background: rgba(20, 40, 60, 0.8);
-    padding: 1rem;
+    background: linear-gradient(90deg,var(--panel-bg), rgba(30,50,70,0.75));
+    padding: 1rem 1.25rem;
     text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-    color: #00ffe5;
-    text-shadow: 0 0 10px #00ffe5;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--accent-2);
+    text-shadow: 0 0 8px rgba(0,255,229,0.08);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.45);
     backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
 }
 
 #button-bar {
@@ -60,8 +74,8 @@ header {
     flex-direction: column;
     gap: 0.8rem;
     scroll-behavior: smooth;
-    background: rgba(255, 255, 255, 0.05);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--card-bg);
+    border-top: 1px solid rgba(255,255,255,0.04);
     backdrop-filter: blur(4px);
 }
 
@@ -108,7 +122,7 @@ header {
 #input-area {
     display: flex;
     padding: 1rem;
-    background-color: rgba(20, 30, 40, 0.8);
+    background-color: var(--panel-bg);
     gap: 0.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(6px);
@@ -157,8 +171,8 @@ button:hover {
     text-align: center;
     font-size: 0.9rem;
     padding: 0.6rem;
-    background-color: rgba(10, 20, 30, 0.7);
-    color: #90caf9;
+    background-color: rgba(10, 20, 30, 0.65);
+    color: var(--accent-2);
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(5px);
 }
@@ -242,9 +256,7 @@ a {
     cursor: pointer;
 }
 
-#chat-container {
-  max-height: calc(100vh - 230px);
-}
+/* Note: chat container uses flex:1 declared earlier; no extra max-height needed. */
 
 #input-area {
   flex-wrap: wrap;
@@ -259,36 +271,43 @@ a {
 }
 
  .info-block {
-            background: var(--cinza-claro);
+            background: var(--glass);
             border-radius: 10px;
             padding: 12px 18px;
             flex: 1;
             text-align: center;
-            color: #00cfff;
+            color: var(--accent);
             font-weight: 500;
-            font-size: 1.1em;
-            border: 1px solid #00cfff44;
-            box-shadow: 0 2px 8px #00cfff22;
+            font-size: 1.05em;
+            border: 1px solid rgba(0,204,255,0.18);
+            box-shadow: 0 2px 10px rgba(0,204,255,0.08);
         }
 
         footer {
             width: 100%;
-            background: #232a36;
-            color: #00cfff;
+            background: linear-gradient(180deg,#1e262c,#232a36);
+            color: var(--accent);
             text-align: center;
-            padding: 18px 0;
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            font-size: 15px;
+            padding: 12px 16px;
+            /* make footer sit after main content in the column flex layout */
+            margin-top: auto;
+            font-size: 0.95rem;
+            height: var(--footer-height);
+            line-height: calc(var(--footer-height) - 8px);
             font-weight: 400;
-            box-shadow: 0 -2px 12px #00cfff22;
-            letter-spacing: 1px;
+            box-shadow: 0 -4px 18px rgba(0,0,0,0.45);
+            letter-spacing: 0.6px;
+            border-top: 1px solid rgba(255,255,255,0.02);
         }
 
         footer p {
             margin: 0;
+            opacity: 0.95;
         }
+
+        /* small visual helpers */
+        .muted { color: var(--muted); }
+        .accent { color: var(--accent); }
 
         @media(max-width: 700px) {
 
